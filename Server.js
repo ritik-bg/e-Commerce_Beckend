@@ -8,6 +8,7 @@ import { connectDB } from "./src/utils/db/connection.js";
 import { authMiddleware } from "./src/middlewares/Authmiddleware.js";
 import Productrouter from "./src/Routes/ProductsRoute.js";
 import Cartrouter from "./src/Routes/CartRoutes.js";
+import { getLatestCollections } from "./src/utils/db/Helper.js";
 
 dotenv.config();
 const app = express();
@@ -116,6 +117,8 @@ app.post("/logout", (req, res) => {
   });
   res.send({ message: "Logged out successfully!" });
 });
+
+app.get("/latestCollection",getLatestCollections);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
