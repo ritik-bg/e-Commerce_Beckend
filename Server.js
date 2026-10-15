@@ -46,6 +46,8 @@ app.get("/userlist", async (req, res) => {
 
 app.post("/register", async (req, res) => {
   const data = req.body;
+  if(!data.name || !data.password) return res.json({ error: "username or password missing!" });
+  
   const user = await UserCollection.findOne(data);
 
   if (user) {
