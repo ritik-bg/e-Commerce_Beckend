@@ -15,7 +15,7 @@ const app = express();
 const port = 3000;
 app.use(
   Cors({
-    origin: ["http://localhost:5174","https://ashoperpoint.vercel.app/","http://localhost:5173"],
+    origin: ["http://localhost:5174","https://ashoperpoint.vercel.app","https://ashoperpoint.vercel.app/","http://localhost:5173"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   }),
