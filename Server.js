@@ -11,13 +11,14 @@ import Cartrouter from "./src/Routes/CartRoutes.js";
 import { getLatestCollections } from "./src/utils/db/Helper.js";
 import { getSendOtp, verifyOtp } from "./src/utils/helpers/otphelpers.js";
 import bcrypt from 'bcrypt'
+import { CONFIG } from "./src/Config.js";
 
 dotenv.config();
 const app = express();
 const port = 3000;
 app.use(
   Cors({
-    origin: ["http://localhost:5174","https://ashoperpoint.vercel.app","https://ashoperpoint.vercel.app/","http://localhost:5173"],
+    origin:CONFIG.allowedOrigins,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   }),
@@ -74,6 +75,8 @@ app.post("/register", async (req, res) => {
   try {
     const { name, password, otp } = req.body;
     const email = (req.body.email || "").trim().toLowerCase();
+    // console.log(name,password,otp,'credential');
+    
  
     if (!name || !password || !email || !otp) {
       return res
@@ -176,7 +179,7 @@ app.post("/signin", async (req, res) => {
     if (!isMatch) {
       return res
         .status(401)
-        .json({ success: false, message: "Invalid credentials!" });
+        .json({ success: false, message: "Invalid Password!" });
     }
 
     const token = jwt.sign(
@@ -191,6 +194,7 @@ app.post("/signin", async (req, res) => {
       data: {
         username: user.name,
         token,
+        id:user._id
       },
     });
   } catch (err) {
@@ -198,7 +202,6 @@ app.post("/signin", async (req, res) => {
     res.status(500).json({ success: false, message: "Server error" });
   }
 });
-
 
 app.post("/logout", (req, res) => {
   res.clearCookie("token", {
