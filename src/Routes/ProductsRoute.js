@@ -3,16 +3,14 @@ import { getDB } from "../utils/db/connection.js";
 import cloudinary from "../utils/db/CloudConnection.js";
 import multer from "multer";
 import { authorizeRoles } from "../middlewares/checkRoles.js";
-import {  getProducts } from "../utils/db/Helper.js";
+import {  getPopular, getProducts } from "../utils/db/Helper.js";
 
 const upload = multer({ storage: multer.memoryStorage() });
 const Productrouter = express.Router();
 
 Productrouter.get("/list", getProducts);
 
-Productrouter.post("/allproduct", (req, res) => {
-  res.send("Product list");
-});
+Productrouter.get("/popular", getPopular);
 
 Productrouter.get("/:id", (req, res) => {
   res.send(`Product id: ${req.params.id}`);

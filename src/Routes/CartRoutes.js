@@ -64,4 +64,6 @@ Cartrouter.post("/addtocart", authMiddleware, async (req, res) => {
   res.json({ success: true, message: "Item added to cart" });
 });
 
+
+
 export default Cartrouter;
