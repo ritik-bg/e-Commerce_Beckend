@@ -9,6 +9,8 @@ const razorpay = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,
     key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
+// console.log(process.env.RAZORPAY_KEY_ID,process.env.RAZORPAY_KEY_SECRET);
+
 
 const toObjectId = (id) => {
     try {
@@ -150,6 +152,7 @@ paymentRouter.post("/create-order", async (req, res) => {
             pricing: orderDoc.pricing,
         });
     } catch (err) {
+
         console.error("create-order error:", err);
         res.status(500).json({ status: false, msg: "Could not start payment" });
     }
