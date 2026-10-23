@@ -14,12 +14,14 @@ const round2 = (n) => Math.round((n + Number.EPSILON) * 100) / 100;
 const getGstRate = (unitPrice) => (unitPrice > GST_SLAB_LIMIT ? GST_HIGH : GST_LOW);
 
 /**
- * @param {Array<{productId, name, new_price, quantity}>} items  prices must come from the DB
+ * @param {Array<{productId, name, price, quantity}>} items  prices must come from the DB
  */
 function calculateTotals(items) {
+
+  
   const lines = items.map((item) => {
-    const lineTotal = round2(item.new_price * item.quantity);
-    const gstRate = getGstRate(item.new_price);
+    const lineTotal = round2(item.price * item.quantity);
+    const gstRate = getGstRate(item.price);
     const gst = round2((lineTotal * gstRate) / 100);
     return { ...item, lineTotal, gstRate, gst };
   });

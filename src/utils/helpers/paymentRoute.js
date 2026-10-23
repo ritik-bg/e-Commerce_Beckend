@@ -14,7 +14,7 @@ const toObjectId = (id) => {
     try {
         return new ObjectId(id);
     } catch {
-        return id; 
+        return id;
     }
 };
 
@@ -59,12 +59,15 @@ function validateAddress(input) {
 /* ------------------------------------------------------------------ */
 async function getTrustedLines(db, userId) {
     const cart = await db.collection("Cart").findOne({ userId });
+
+
     const cartItems = cart?.items || [];
     if (!cartItems.length) return [];
 
     const ids = cartItems.map((i) => toObjectId(i.productId));
+
     const products = await db
-        .collection("Products")
+        .collection("Allproducts")
         .find({ _id: { $in: ids } })
         .toArray();
 
@@ -94,8 +97,9 @@ paymentRouter.post("/create-order", async (req, res) => {
     try {
         const db = getDB();
         const userId = req.user.id;
+        // console.log(req.body,'request');
 
-        const { address, error: addressError } = validateAddress(req.body?.address);
+        const { address, error: addressError } = validateAddress(req.body);
         if (addressError) {
             return res.status(400).json({ status: false, msg: addressError });
         }
@@ -253,7 +257,6 @@ webhookRouter.post(
                     await db.collection("Cart").deleteOne({ userId: order.userId });
                 }
             }
-
             res.status(200).send("ok");
         } catch (err) {
             console.error("webhook error:", err);
