@@ -143,6 +143,7 @@ paymentRouter.post("/create-order", async (req, res) => {
             .updateOne({ _id: insertedId }, { $set: { razorpayOrderId: rzpOrder.id } });
 
         res.json({
+            // orderConfirmed:true,
             status: true,
             orderId: insertedId,
             razorpayOrderId: rzpOrder.id,
